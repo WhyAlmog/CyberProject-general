@@ -32,7 +32,7 @@ def main():
 
 def train(net, trainloader):
     lossFunction = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(net.parameters(), lr=0.05)
+    optimizer = optim.Adam(net.parameters(), lr=0.03)
 
     print("Started training")
 

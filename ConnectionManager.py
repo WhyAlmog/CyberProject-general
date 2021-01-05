@@ -1,12 +1,23 @@
+from Network import MODEL_PATH
 import socket
 import threading
 import time
 
-from EV3Commands import WAIT_TOUCH_SENSOR_CLICKED # type:ignore
-from EV3Commands import TEST_MOVE # type:ignore
+from EV3Commands import WAIT_TOUCH_SENSOR_CLICKED
+from EV3Commands import TEST_MOVE
 
+from Net import Net
+
+import torch
+import torch.nn.functional as F
+import torchvision.transforms.functional as TF
+from PIL import Image
+from torch import nn
+
+NETWORK = None
 
 FOLDER = "C:\\Users\\almog\\Desktop\\test"
+MODEL_PATH = "./network.pth"
 
 EV3_IP = "192.168.137.3"
 EV3_PORT = 8070
@@ -20,20 +31,20 @@ PHONE = None
 RUNNING = True
 
 
-def send(conn:socket, data:str):
+def send(conn: socket, data: str):
     """Sends data as bytes with a 4 byte header acting as the message's length (big endian)"""
     data = data.encode()
     conn.send(len(data).to_bytes(4, "big"))
     conn.send(data)
 
 
-def receive(conn:socket):
+def receive(conn: socket):
     """Receives data according to the 4 bytes header protocol, see send function"""
     length = int.from_bytes(conn.recv(4), "big")
     return conn.recv(length)
 
 
-def receive_string(conn:socket):
+def receive_string(conn: socket):
     """Receives data according to the 4 bytes header protocol, see send function"""
     length = int.from_bytes(conn.recv(4), "big")
     return conn.recv(length).decode()
@@ -52,13 +63,33 @@ def run():
         send(EV3, WAIT_TOUCH_SENSOR_CLICKED)
         if receive_string(EV3) == "success":
             send(PHONE, "TAKE PICTURE")
-            with open(FOLDER + "/Time" + str(time.time()) + ".jpg", 'wb') as f:
+
+            filename = "/Time" + str(time.time()) + ".jpg"
+            with open(FOLDER + filename, 'wb') as f:
                 f.write(receive(PHONE))
+
+            t = threading.Thread(target=network_eval, args=[filename])
+            t.start()
+
             send(EV3, TEST_MOVE)
             receive_string(EV3)
 
 
-def exit(phone_server:socket):
+def network_eval(filename):
+    image = Image.open(FOLDER + filename)
+
+    x = TF.to_tensor(image)
+    # create a fake batch
+    x.unsqueeze_(0)
+
+    output = NETWORK(x)
+
+    _, predicted = torch.max(output, 1)
+
+    print(predicted)
+
+
+def exit(phone_server: socket):
     status = receive_string(EV3_EXIT)
     print(status)
     if status == "exit":
@@ -70,9 +101,14 @@ def exit(phone_server:socket):
     phone_server.close()
 
 
-
 def main():
     global PHONE
+    global NETWORK
+
+    NETWORK = Net()
+    NETWORK.load_state_dict(torch.load(MODEL_PATH))
+    NETWORK.eval()
+    print("Network loaded")
 
     EV3.connect((EV3_IP, EV3_PORT))
     EV3_EXIT.connect((EV3_IP, EV3_EXIT_PORT))
@@ -85,7 +121,6 @@ def main():
     # TODO add support for phone disconnecting due to network lag
     PHONE = phone_server.accept()[0]
     print("Phone Connected")
-
 
     t = threading.Thread(target=run)
     t.start()
