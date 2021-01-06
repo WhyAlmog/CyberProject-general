@@ -14,6 +14,12 @@ import torchvision.transforms.functional as TF
 from PIL import Image
 from torch import nn
 
+CLASSES = {
+    0: "paper",
+    1: "plastic",
+    2: "tin"
+}
+
 NETWORK = None
 
 FOLDER = "C:\\Users\\almog\\Desktop\\test"
@@ -86,7 +92,7 @@ def network_eval(filename):
 
     _, predicted = torch.max(output, 1)
 
-    print(predicted)
+    print(CLASSES[predicted.numpy()[0]])
 
 
 def exit(phone_server: socket):
