@@ -3,7 +3,7 @@ import random
 import cv2
 import os
 
-FOLDER = "D:\\Datasets\\CyberProject\\tin\\"
+FOLDER = "D:\\Datasets\\CyberProject\\plastic\\"
 
 
 def sp_noise(image, prob):

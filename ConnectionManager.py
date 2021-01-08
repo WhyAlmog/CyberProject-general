@@ -1,4 +1,4 @@
-from Network import MODEL_PATH
+from NetworkTraining import MODEL_PATH
 import socket
 import threading
 import time
@@ -12,7 +12,6 @@ import torch
 import torch.nn.functional as F
 import torchvision.transforms.functional as TF
 from PIL import Image
-from torch import nn
 
 CLASSES = {
     0: "paper",
@@ -98,8 +97,7 @@ def network_eval(filename):
 def exit(phone_server: socket):
     status = receive_string(EV3_EXIT)
     print(status)
-    if status == "exit":
-        send(EV3, "exit")
+
     send(PHONE, "EXIT")
 
     EV3.close()

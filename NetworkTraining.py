@@ -26,13 +26,14 @@ def main():
 
     net = Net()
     # net.load_state_dict(torch.load(MODEL_PATH))
+    net.train()
     net.to(DEVICE)
     train(net, trainloader)
 
 
 def train(net, trainloader):
     lossFunction = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(net.parameters(), lr=0.005)
+    optimizer = optim.Adam(net.parameters(), lr=0.001)
 
     print("Started training")
 

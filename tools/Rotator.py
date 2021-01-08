@@ -1,7 +1,7 @@
 import cv2
 import os
 
-FOLDER = "D:\\Datasets\\CyberProject\\plastic\\"
+FOLDER = "D:\\Datasets\\CyberProject\\tin\\"
 
 new_name = sorted(int(name.split(".")[0]) for name in os.listdir(FOLDER))[-1]
 
