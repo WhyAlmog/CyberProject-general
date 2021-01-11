@@ -5,8 +5,10 @@ import random
 from skimage import io
 
 
-FOLDERS = ["D:\\Datasets\\CyberProject\\paper\\",
-           "D:\\Datasets\\CyberProject\\tin\\", "D:\\Datasets\\CyberProject\\plastic\\"]
+FOLDERS = ["D:\\Datasets\\CyberProject\\train\\paper\\",
+           "D:\\Datasets\\CyberProject\\train\\tin\\", "D:\\Datasets\\CyberProject\\train\\plastic\\",
+           "D:\\Datasets\\CyberProject\\test\\paper\\", "D:\\Datasets\\CyberProject\\test\\tin\\",
+           "D:\\Datasets\\CyberProject\\test\\plastic\\"]
 
 
 def sp_noise(image, prob):

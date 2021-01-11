@@ -8,7 +8,7 @@ from torchvision.datasets import ImageFolder
 
 from Net import Net
 
-TRAIN_PATH = "D:\\Datasets\\CyberProject\\"
+TRAIN_PATH = "D:\\Datasets\\CyberProject\\train"
 MODEL_PATH = "./network.pth"
 EPOCHS = 3
 DEVICE = None
