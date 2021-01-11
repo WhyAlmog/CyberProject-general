@@ -86,3 +86,5 @@ for folder in FOLDERS:
     rename(folder)
     rotate(folder)
     noise(folder)
+
+print("finished")
