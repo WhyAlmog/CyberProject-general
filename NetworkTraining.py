@@ -22,7 +22,7 @@ def main():
     transform = transforms.Compose([transforms.ToTensor()])
     trainset = ImageFolder(TRAIN_PATH, transform=transform)
     trainloader = DataLoader(trainset, batch_size=4,
-                             shuffle=True, num_workers=4)
+                             shuffle=True, num_workers=0)
 
     net = Net()
     # net.load_state_dict(torch.load(MODEL_PATH))

@@ -2,6 +2,7 @@ import cv2
 import os
 import numpy as np
 import random
+from skimage import io
 
 
 FOLDERS = ["D:\\Datasets\\CyberProject\\paper\\",
@@ -65,8 +66,23 @@ def rename(folder):
         starting_name += 1
 
 
+def verify(folder):
+    files_to_remove = []
+
+    for filename in os.listdir(folder):
+        try:
+            _ = io.imread(folder + filename)
+        except Exception as e:
+            print(filename)
+            files_to_remove.append(filename)
+
+    for filename in files_to_remove:
+        os.remove(folder + filename)
+
+
 for folder in FOLDERS:
     print(folder)
+    verify(folder)
     rename(folder)
     rotate(folder)
     noise(folder)
