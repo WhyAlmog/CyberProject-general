@@ -12,6 +12,8 @@ TRAIN_PATH = "D:\\Datasets\\CyberProject\\train"
 MODEL_PATH = "./network.pth"
 EPOCHS = 3
 DEVICE = None
+LEARNING_RATE = 0.003
+BATCH_SIZE = 4
 
 
 def main():
@@ -21,7 +23,7 @@ def main():
 
     transform = transforms.Compose([transforms.ToTensor()])
     trainset = ImageFolder(TRAIN_PATH, transform=transform)
-    trainloader = DataLoader(trainset, batch_size=4,
+    trainloader = DataLoader(trainset, batch_size=BATCH_SIZE,
                              shuffle=True, num_workers=0)
 
     net = Net()
@@ -33,14 +35,14 @@ def main():
 
 def train(net, trainloader):
     lossFunction = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(net.parameters(), lr=0.001)
+    optimizer = optim.Adam(net.parameters(), lr=LEARNING_RATE)
 
     print("Started training")
-
     for epoch in range(EPOCHS):
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
             inputs, labels = data[0].to(DEVICE), data[1].to(DEVICE)
+
             optimizer.zero_grad()
 
             outputs = net(inputs)

@@ -65,19 +65,20 @@ def run():
     repeat
     """
     while RUNNING:
-        send(EV3, WAIT_TOUCH_SENSOR_CLICKED)
-        if receive_string(EV3) == "success":
+        #send(EV3, WAIT_TOUCH_SENSOR_CLICKED)
+        if input() == "":
+        #if receive_string(EV3) == "success":
             send(PHONE, "TAKE PICTURE")
 
             filename = "/Time" + str(time.time()) + ".jpg"
             with open(FOLDER + filename, 'wb') as f:
                 f.write(receive(PHONE))
 
-            t = threading.Thread(target=network_eval, args=[filename])
-            t.start()
+            #t = threading.Thread(target=network_eval, args=[filename])
+            #t.start()
 
-            send(EV3, TEST_MOVE)
-            receive_string(EV3)
+            #send(EV3, TEST_MOVE)
+            #receive_string(EV3)
 
 
 def network_eval(filename):
@@ -109,14 +110,14 @@ def main():
     global PHONE
     global NETWORK
 
-    NETWORK = Net()
-    NETWORK.load_state_dict(torch.load(MODEL_PATH))
-    NETWORK.eval()
-    print("Network loaded")
+    #NETWORK = Net()
+    #NETWORK.load_state_dict(torch.load(MODEL_PATH))
+    #NETWORK.eval()
+    #print("Network loaded")
 
-    EV3.connect((EV3_IP, EV3_PORT))
-    EV3_EXIT.connect((EV3_IP, EV3_EXIT_PORT))
-    print("EV3 Connected")
+    #EV3.connect((EV3_IP, EV3_PORT))
+    #EV3_EXIT.connect((EV3_IP, EV3_EXIT_PORT))
+    #print("EV3 Connected")
 
     phone_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     phone_server.bind(('0.0.0.0', PHONE_SERVER_PORT))
@@ -129,8 +130,8 @@ def main():
     t = threading.Thread(target=run)
     t.start()
 
-    t = threading.Thread(target=exit, args=[phone_server])
-    t.start()
+    #t = threading.Thread(target=exit, args=[phone_server])
+    #t.start()
 
 
 if __name__ == "__main__":
