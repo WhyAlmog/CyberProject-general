@@ -87,6 +87,6 @@ for folder in FOLDERS:
     verify(folder)
     rename(folder)
     rotate(folder)
-    noise(folder)
+    #noise(folder)
 
 print("finished")

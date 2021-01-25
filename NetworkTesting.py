@@ -6,6 +6,8 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 from torchvision.datasets import ImageFolder
 
+import torch.nn.functional as F
+
 from Net import Net
 
 TEST_PATH = "D:\\Datasets\\CyberProject\\test"
