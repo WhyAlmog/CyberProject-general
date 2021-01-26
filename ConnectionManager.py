@@ -5,7 +5,7 @@ import time
 
 from EV3Commands import *
 
-from utils import *
+from Utils import *
 
 from Net import Net
 

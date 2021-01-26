@@ -8,15 +8,19 @@ EV3_PORT = 8070
 EV3_EXIT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 EV3_EXIT_PORT = 8071
 
+
 def main():
     EV3.connect((EV3_IP, EV3_PORT))
     EV3_EXIT.connect((EV3_IP, EV3_EXIT_PORT))
 
-    send(EV3, "motor_run_angle D 720 -2880")
+    # positive degrees for motor A causes the rope to go taut
+
+    angle = str(int(360 * 5))
+
+    send(EV3, "motor_run_angle B 360 -" + angle)
     receive_string(EV3)
-    send(EV3, "sensor_touch_wait_until_clicked 1")
-    receive_string(EV3)
-    send(EV3, "motor_run_angle D 720 2880")
+
+    send(EV3, "motor_run_angle A 360 -" + angle)
     receive_string(EV3)
 
 
