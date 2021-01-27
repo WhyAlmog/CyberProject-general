@@ -20,6 +20,12 @@ CLASSES = {
     2: "tin"
 }
 
+TUBE_MOVEMENT = {
+    0: tube_left_position,
+    1: tube_middle_position,
+    2: tube_right_position
+}
+
 NETWORK = None
 
 FOLDER = "C:\\Users\\almog\\Desktop\\test"
@@ -55,15 +61,16 @@ def run():
             with open(FOLDER + filename, 'wb') as f:
                 f.write(receive(PHONE))
 
-            t = threading.Thread(target=network_eval, args=[filename])
-            t.start()
+            tube_pos = network_eval(filename)
 
+            TUBE_MOVEMENT[tube_pos](EV3)
             open_trapdoor(EV3)
             time.sleep(1.5)
             close_trapdoor(EV3)
+            tube_middle_position(EV3)
 
 
-def network_eval(filename):
+def network_eval(filename) -> int:
     image = Image.open(FOLDER + filename)
 
     x = TF.to_tensor(image)
@@ -75,6 +82,7 @@ def network_eval(filename):
     _, predicted = torch.max(output, 1)
 
     print(CLASSES[predicted.numpy()[0]])
+    return predicted.numpy()[0]
 
 
 def exit(phone_server: socket):

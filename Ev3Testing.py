@@ -13,16 +13,13 @@ def main():
     EV3.connect((EV3_IP, EV3_PORT))
     EV3_EXIT.connect((EV3_IP, EV3_EXIT_PORT))
 
-    # positive degrees for motor A causes the rope to go taut
-
-    angle = str(int(360 * 5))
-
-    send(EV3, "motor_run_angle B 360 -" + angle)
-    receive_string(EV3)
-
-    send(EV3, "motor_run_angle A 360 -" + angle)
-    receive_string(EV3)
-
+    tube_right_position(EV3)
+    wait_touch_sensor_clicked(EV3)
+    tube_middle_position(EV3)
+    wait_touch_sensor_clicked(EV3)
+    tube_left_position(EV3)
+    wait_touch_sensor_clicked(EV3)
+    tube_middle_position(EV3)
 
 if __name__ == "__main__":
     main()
