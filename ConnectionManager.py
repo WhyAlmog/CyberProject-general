@@ -30,6 +30,8 @@ NETWORK = None
 IMAGE_FOLDER = "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\images\\"
 MODEL_PATH = "./network.pth"
 
+IMAGE_DELETION_ERROR = "Failed to delete image: {}, overriting data instead"
+
 EV3_IP = "192.168.137.3"
 EV3_PORT = 8070
 EV3_EXIT_PORT = 8071
@@ -55,25 +57,30 @@ def run():
         res = wait_touch_sensor_clicked(EV3)
         if res == "success":
             successful = False
-            image = None
             filepath = IMAGE_FOLDER + "temp.jpg"
+            image = None
 
             while not successful:
                 send(PHONE, "TAKE PICTURE")
                 with open(filepath, 'wb') as f:
                     f.write(receive(PHONE))
 
+                image = Image.open(filepath)
                 try:
-                    image = Image.open(filepath)
+                    image.load()
                     successful = True
                 except Exception:
-                    os.remove(filepath)
+                    image.close()
+                    try:
+                        os.remove(filepath)
+                    except Exception:
+                        print(IMAGE_DELETION_ERROR.format(filepath))
 
             network_prediction = network_eval(image)
             print(CLASSES[network_prediction])
 
             os.rename(filepath, IMAGE_FOLDER +
-                      CLASSES[network_prediction] + str(int(time.time()/1000)) + ".jpg")
+                      CLASSES[network_prediction] + str(int(time.time())) + ".jpg")
 
             TUBE_MOTOR_ROTATIONS[network_prediction](EV3)
             open_trapdoor(EV3)
