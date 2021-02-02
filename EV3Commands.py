@@ -11,7 +11,7 @@ TRAPDOOR_ANGLE = str(int(360 * 7.7))
 #! A - right motor, positive degrees cause the rope to go LOOSE
 #! B - left motor,  positive degrees cause the rope to go TAUT
 TUBE_MOTOR_SPEED = str(360)
-TUBE_MIDDLE_TO_RIGHT = str(int(360 * 4.5))
+TUBE_MOTOR_ROTATIONS = str(int(360 * 4.5))
 
 
 # ? 0/1/2 - left/middle/right
@@ -39,11 +39,11 @@ def tube_right_position(conn: socket):
     global TUBE_POSITION
     if TUBE_POSITION == 1:
         send(conn, "motor_run_angle A -" + TUBE_MOTOR_SPEED + " " +
-             TUBE_MIDDLE_TO_RIGHT + " HOLD False")
+             TUBE_MOTOR_ROTATIONS + " HOLD False")
         receive_string(conn)
 
         send(conn, "motor_run_angle B -" +
-             TUBE_MOTOR_SPEED + " " + TUBE_MIDDLE_TO_RIGHT)
+             TUBE_MOTOR_SPEED + " " + TUBE_MOTOR_ROTATIONS)
         receive_string(conn)
 
         TUBE_POSITION = 2
@@ -53,22 +53,22 @@ def tube_middle_position(conn: socket):
     global TUBE_POSITION
     if TUBE_POSITION == 2:
         send(conn, "motor_run_angle B " + TUBE_MOTOR_SPEED + " " +
-             TUBE_MIDDLE_TO_RIGHT + " HOLD False")
+             TUBE_MOTOR_ROTATIONS + " HOLD False")
         receive_string(conn)
 
         send(conn, "motor_run_angle A " + TUBE_MOTOR_SPEED + " " +
-             TUBE_MIDDLE_TO_RIGHT)
+             TUBE_MOTOR_ROTATIONS)
         receive_string(conn)
 
         TUBE_POSITION = 1
 
     elif TUBE_POSITION == 0:
         send(conn, "motor_run_angle A -" + TUBE_MOTOR_SPEED + " " +
-             TUBE_MIDDLE_TO_RIGHT + " HOLD False")
+             TUBE_MOTOR_ROTATIONS + " HOLD False")
         receive_string(conn)
 
         send(conn, "motor_run_angle B -" + TUBE_MOTOR_SPEED + " " +
-             TUBE_MIDDLE_TO_RIGHT)
+             TUBE_MOTOR_ROTATIONS)
         receive_string(conn)
 
         TUBE_POSITION = 1
@@ -78,11 +78,11 @@ def tube_left_position(conn: socket):
     global TUBE_POSITION
     if TUBE_POSITION == 1:
         send(conn, "motor_run_angle B " +
-             TUBE_MOTOR_SPEED + " " + TUBE_MIDDLE_TO_RIGHT + " HOLD False")
+             TUBE_MOTOR_SPEED + " " + TUBE_MOTOR_ROTATIONS + " HOLD False")
         receive_string(conn)
 
         send(conn, "motor_run_angle A " + TUBE_MOTOR_SPEED + " " +
-             TUBE_MIDDLE_TO_RIGHT)
+             TUBE_MOTOR_ROTATIONS)
         receive_string(conn)
 
         TUBE_POSITION = 0
