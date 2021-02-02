@@ -1,18 +1,17 @@
-from NetworkTraining import MODEL_PATH
 import socket
 import threading
 import time
 
-from EV3Commands import *
-
-from Utils import *
-
-from Net import Net
-
 import torch
-import torch.nn.functional as F
 import torchvision.transforms.functional as TF
 from PIL import Image
+
+from EV3Commands import *
+from Net import Net
+from NetworkTraining import MODEL_PATH
+from Utils import *
+
+import os
 
 CLASSES = {
     0: "paper",
@@ -20,7 +19,7 @@ CLASSES = {
     2: "tin"
 }
 
-TUBE_MOVEMENT = {
+TUBE_MOTOR_ROTATIONS = {
     0: tube_left_position,
     1: tube_middle_position,
     2: tube_right_position
@@ -28,7 +27,7 @@ TUBE_MOVEMENT = {
 
 NETWORK = None
 
-FOLDER = "C:\\Users\\almog\\Desktop\\test"
+IMAGE_FOLDER = "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\images\\"
 MODEL_PATH = "./network.pth"
 
 EV3_IP = "192.168.137.3"
@@ -55,24 +54,35 @@ def run():
     while RUNNING:
         res = wait_touch_sensor_clicked(EV3)
         if res == "success":
-            send(PHONE, "TAKE PICTURE")
+            successful = False
+            image = None
+            filepath = IMAGE_FOLDER + "temp.jpg"
 
-            filename = "/Time" + str(time.time()) + ".jpg"
-            with open(FOLDER + filename, 'wb') as f:
-                f.write(receive(PHONE))
+            while not successful:
+                send(PHONE, "TAKE PICTURE")
+                with open(filepath, 'wb') as f:
+                    f.write(receive(PHONE))
 
-            tube_pos = network_eval(filename)
+                try:
+                    image = Image.open(filepath)
+                    successful = True
+                except Exception:
+                    os.remove(filepath)
 
-            TUBE_MOVEMENT[tube_pos](EV3)
+            network_prediction = network_eval(image)
+            print(CLASSES[network_prediction])
+
+            os.rename(filepath, IMAGE_FOLDER +
+                      CLASSES[network_prediction] + str(int(time.time()/1000)) + ".jpg")
+
+            TUBE_MOTOR_ROTATIONS[network_prediction](EV3)
             open_trapdoor(EV3)
             time.sleep(1.5)
             close_trapdoor(EV3)
             tube_middle_position(EV3)
 
 
-def network_eval(filename) -> int:
-    image = Image.open(FOLDER + filename)
-
+def network_eval(image) -> int:
     x = TF.to_tensor(image)
     # create a fake batch
     x.unsqueeze_(0)
@@ -81,7 +91,6 @@ def network_eval(filename) -> int:
 
     _, predicted = torch.max(output, 1)
 
-    print(CLASSES[predicted.numpy()[0]])
     return predicted.numpy()[0]
 
 
