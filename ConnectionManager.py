@@ -45,14 +45,6 @@ RUNNING = True
 
 
 def run():
-    """
-    workflow:
-    wait for EV3 touch sensor to be pressed
-    send request to capture image
-    process returned image
-    send appropriate motor commands to EV3
-    repeat
-    """
     while RUNNING:
         res = wait_touch_sensor_clicked(EV3)
         if res == "success":
