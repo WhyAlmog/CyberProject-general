@@ -55,10 +55,9 @@ def run():
             while not successful:
                 send(PHONE, "TAKE PICTURE")
                 with open(filepath, 'wb') as f:
-                    f.write(receive(PHONE))
-
-                image = Image.open(filepath)
+                    f.write(receive(PHONE))               
                 try:
+                    image = Image.open(filepath)
                     image.load()
                     successful = True
                 except Exception:
