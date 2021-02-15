@@ -12,8 +12,8 @@ TRAIN_PATH = "D:\\Datasets\\CyberProject\\train"
 MODEL_PATH = "./network.pth"
 EPOCHS = 3
 DEVICE = None
-LEARNING_RATE = 0.0006
-BATCH_SIZE = 16
+LEARNING_RATE = 0.0005
+BATCH_SIZE = 4
 
 
 def main():
