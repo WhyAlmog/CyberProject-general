@@ -24,7 +24,7 @@ IMAGE_FOLDER = "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\Cyber
 
 def run():
     while True:
-        # wait_touch_sensor_clicked(EV3)
+        #wait_touch_sensor_clicked(EV3)
         input()
 
         successful = False
@@ -33,9 +33,7 @@ def run():
         while not successful:
             try:
                 send(PHONE, "TAKE PICTURE")
-                print("SEND")
                 with open(filepath, 'wb') as f:
-                    print("RECEIVE")
                     f.write(receive(PHONE))
 
                 image = Image.open(filepath)

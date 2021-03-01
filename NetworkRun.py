@@ -9,6 +9,7 @@ from torchvision.datasets import ImageFolder
 from Net import Net
 
 TRAIN_PATH = "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\"
+TEST_PATH = "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\"
 MODEL_PATH = "./network.pth"
 EPOCHS = 3
 DEVICE = None
@@ -26,11 +27,21 @@ def main():
     trainloader = DataLoader(trainset, batch_size=BATCH_SIZE,
                              shuffle=True, num_workers=0)
 
+    testset = ImageFolder(TEST_PATH, transform=transform)
+    testloader = DataLoader(testset, batch_size=4,
+                            shuffle=True, num_workers=0)
+
     net = Net()
-    # net.load_state_dict(torch.load(MODEL_PATH))
     net.train()
     net.to(DEVICE)
     train(net, trainloader)
+
+    net.eval()
+    test(net, testloader)
+
+    if os.path.exists(MODEL_PATH):
+        os.remove(MODEL_PATH)
+    torch.save(net.state_dict(), MODEL_PATH)
 
 
 def train(net, trainloader):
@@ -39,8 +50,7 @@ def train(net, trainloader):
 
     print("Started training")
     for epoch in range(EPOCHS):
-        running_loss = 0.0
-        for i, data in enumerate(trainloader, 0):
+        for data in trainloader:
             inputs, labels = data[0].to(DEVICE), data[1].to(DEVICE)
 
             optimizer.zero_grad()
@@ -50,16 +60,24 @@ def train(net, trainloader):
             loss.backward()
             optimizer.step()
 
-            running_loss += loss.item()
-            if i % 50 == 49:
-                print('[%d, %5d] loss: %.3f' %
-                      (epoch + 1, i + 1, running_loss / 50))
-                running_loss = 0.0
 
-    if os.path.exists(MODEL_PATH):
-        os.remove(MODEL_PATH)
+def test(net, trainloader):
+    print("Started testing")
+    choices = 0
+    correct_choices = 0
 
-    torch.save(net.state_dict(), MODEL_PATH)
+    for data in trainloader:
+        inputs, labels = data[0].to(DEVICE), data[1].to(DEVICE)
+
+        outputs = net(inputs)
+
+        for i, label in enumerate(labels):
+            choices += 1
+
+            if torch.argmax(outputs[i]) == label:
+                correct_choices += 1
+
+    print("Accuracy: {:.3f}".format(correct_choices / choices))
 
 
 if __name__ == "__main__":

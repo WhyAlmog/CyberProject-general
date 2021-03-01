@@ -10,7 +10,7 @@ import torch.nn.functional as F
 
 from Net import Net
 
-TEST_PATH = "D:\\Datasets\\CyberProject\\test"
+TEST_PATH = "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\"
 MODEL_PATH = "./network.pth"
 DEVICE = None
 

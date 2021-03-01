@@ -5,10 +5,12 @@ import random
 from skimage import io
 
 
-FOLDERS = ["D:\\Datasets\\CyberProject\\train\\paper\\",
-           "D:\\Datasets\\CyberProject\\train\\tin\\", "D:\\Datasets\\CyberProject\\train\\plastic\\",
-           "D:\\Datasets\\CyberProject\\test\\paper\\", "D:\\Datasets\\CyberProject\\test\\tin\\",
-           "D:\\Datasets\\CyberProject\\test\\plastic\\"]
+FOLDERS = ["C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\paper\\",
+           "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\tin\\",
+           "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\plastic\\",
+           "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\paper\\",
+           "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\tin\\",
+           "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\plastic\\"]
 
 
 def sp_noise(image, prob):
@@ -87,6 +89,6 @@ for folder in FOLDERS:
     verify(folder)
     rename(folder)
     rotate(folder)
-    #noise(folder)
+    # noise(folder)
 
 print("finished")

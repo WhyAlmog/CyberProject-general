@@ -6,18 +6,17 @@ class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
         self.pool = nn.MaxPool2d(2, 2)
-        self.conv1 = nn.Conv2d(3, 32, 5)
-        self.conv2 = nn.Conv2d(32, 24, 5)
-        self.conv3 = nn.Conv2d(24, 20, 3)
-        self.fc1 = nn.Linear(20 * 10 ** 2, 4096)
-        self.fc2 = nn.Linear(4096, 512)
-        self.fc3 = nn.Linear(512, 3)
+        self.conv1 = nn.Conv2d(3, 64, 5)
+        self.conv2 = nn.Conv2d(64, 48, 5)
+        self.conv3 = nn.Conv2d(48, 40, 3)
+        self.fc1 = nn.Linear(40 * 10 ** 2, 4096)
+        self.fc2 = nn.Linear(4096, 3)
 
     def forward(self, x):
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
         x = self.pool(F.relu(self.conv3(x)))
-        x = x.view(-1, 20 * 10 ** 2)
+        x = x.view(-1, 40 * 10 ** 2)
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
         return x
