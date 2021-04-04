@@ -10,6 +10,8 @@ EV3_EXIT_PORT = 8071
 
 
 def main():
+    """make sure that everything works correctly
+    """
     EV3.connect((EV3_IP, EV3_PORT))
     EV3_EXIT.connect((EV3_IP, EV3_EXIT_PORT))
 
@@ -20,6 +22,7 @@ def main():
     tube_left_position(EV3)
     wait_touch_sensor_clicked(EV3)
     tube_middle_position(EV3)
+
 
 if __name__ == "__main__":
     main()

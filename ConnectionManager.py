@@ -13,22 +13,26 @@ from Utils import *
 
 import os
 
+# translate classes from network output to text
 CLASSES = {
     0: "paper",
     1: "plastic",
     2: "tin"
 }
 
+# tranlate classes from network output to the correct tube function
 TUBE_MOTOR_ROTATIONS = {
     0: tube_left_position,
     1: tube_middle_position,
     2: tube_right_position
 }
 
+# network file location
+MODEL_PATH = "./network.pth"
 NETWORK = None
 
+# location to save the pictures to
 IMAGE_FOLDER = "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\images\\"
-MODEL_PATH = "./network.pth"
 
 IMAGE_DELETION_ERROR = "Failed to delete image: {}, overriting data instead"
 
@@ -45,6 +49,9 @@ RUNNING = True
 
 
 def run():
+    """
+    The main body on the program. You can see more about the structure in the attached documentation file.
+    """
     while RUNNING:
         res = wait_touch_sensor_clicked(EV3)
         if res == "success":
@@ -55,7 +62,7 @@ def run():
             while not successful:
                 send(PHONE, "TAKE PICTURE")
                 with open(filepath, 'wb') as f:
-                    f.write(receive(PHONE))               
+                    f.write(receive(PHONE))
                 try:
                     image = Image.open(filepath)
                     image.load()
@@ -75,12 +82,20 @@ def run():
 
             TUBE_MOTOR_ROTATIONS[network_prediction](EV3)
             open_trapdoor(EV3)
-            time.sleep(1.5)
+            time.sleep(1)
             close_trapdoor(EV3)
             tube_middle_position(EV3)
 
 
-def network_eval(image) -> int:
+def network_eval(image: Image) -> int:
+    """use the network to decide the category of the trash in the picture
+
+    Args:
+        image (Image): image in PIL Image format, size of 100x100 pixles
+
+    Returns:
+        int: type of garbage, use the CLASSES dictionary for conversion
+    """
     x = TF.to_tensor(image)
     # create a fake batch
     x.unsqueeze_(0)
@@ -93,6 +108,14 @@ def network_eval(image) -> int:
 
 
 def exit(phone_server: socket):
+    """exit the program, send appropriate messages to all of the connected devices
+
+    Args:
+        phone_server (socket): the server listening for connection from the phone
+    """
+    global RUNNING
+    RUNNING = False
+
     status = receive_string(EV3_EXIT)
     print(status)
 
@@ -104,6 +127,8 @@ def exit(phone_server: socket):
 
 
 def main():
+    """start the program, load the network and connect to the EV3 and the phone.
+    """
     global PHONE
     global NETWORK
 
@@ -120,7 +145,6 @@ def main():
     phone_server.bind(('0.0.0.0', PHONE_SERVER_PORT))
     phone_server.listen(5)
 
-    # TODO add support for phone disconnecting due to network lag
     PHONE = phone_server.accept()[0]
     print("Phone Connected")
 

@@ -18,6 +18,8 @@ BATCH_SIZE = 4
 
 
 def main():
+    """train and then test the network, more information an be found at the individual train/test files
+    """
     global DEVICE
     DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(DEVICE)
@@ -45,6 +47,12 @@ def main():
 
 
 def train(net, trainloader):
+    """train the network
+
+    Args:
+        net: network
+        trainloader: training data
+    """
     lossFunction = nn.CrossEntropyLoss()
     optimizer = optim.Adam(net.parameters(), lr=LEARNING_RATE)
 
@@ -62,6 +70,12 @@ def train(net, trainloader):
 
 
 def test(net, trainloader):
+    """test the performance of the network
+
+    Args:
+        net: network
+        trainloader: testing data
+    """
     print("Started testing")
     choices = 0
     correct_choices = 0

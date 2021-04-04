@@ -33,6 +33,12 @@ def main():
 
 
 def test(net, trainloader):
+    """test the performance of the network
+
+    Args:
+        net: network
+        trainloader: testing data
+    """
     print("Started testing")
     choices = 0
     correct_choices = 0

@@ -24,7 +24,7 @@ IMAGE_FOLDER = "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\Cyber
 
 def run():
     while True:
-        #wait_touch_sensor_clicked(EV3)
+        # wait_touch_sensor_clicked(EV3)
         input()
 
         successful = False
@@ -46,7 +46,10 @@ def run():
             except Exception:
                 successful = False
 
+
 def main():
+    """test just the connection to the phone and picture taking, without a need for the EV3 to be connected
+    """
     global PHONE
 
     phone_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

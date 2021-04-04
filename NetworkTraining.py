@@ -34,6 +34,12 @@ def main():
 
 
 def train(net, trainloader):
+    """train the network
+
+    Args:
+        net: network
+        trainloader: training data
+    """
     lossFunction = nn.CrossEntropyLoss()
     optimizer = optim.Adam(net.parameters(), lr=LEARNING_RATE)
 
