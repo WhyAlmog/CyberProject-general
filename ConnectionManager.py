@@ -114,7 +114,6 @@ def exit(phone_server: socket):
         phone_server (socket): the server listening for connection from the phone
     """
     global RUNNING
-    RUNNING = False
 
     status = receive_string(EV3_EXIT)
     print(status)
@@ -124,6 +123,7 @@ def exit(phone_server: socket):
     EV3.close()
     PHONE.close()
     phone_server.close()
+    RUNNING = False
 
 
 def main():
