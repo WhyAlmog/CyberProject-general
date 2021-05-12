@@ -29,8 +29,7 @@ class AESEncrypt:
         base_text = base64.b64decode(text)
         cryptor = AES.new(self.key, self.mode, self.iv)
         plain_text = cryptor.decrypt(base_text)
-        ne = plain_text.decode('utf-8').rstrip('\0')
-        return ne
+        return plain_text
 
 
 if __name__ == '__main__':

@@ -15,7 +15,7 @@ def send(conn: socket, data: str):
 
 
 
-def receive_string(conn: socket):
+def receive(conn: socket):
     """Receives data according to the 4 bytes header protocol, see send function"""
     length = int.from_bytes(conn.recv(4), "big")
 
@@ -29,11 +29,10 @@ def receive_string(conn: socket):
         
         remaining = length - len(data)
 
-    print(data)
     data = aes.decrypt(data)
     return data
 
 
-def receive(conn: socket):
+def receive_string(conn: socket):
     """Receives data according to the 4 bytes header protocol, see send function"""
-    return receive_string(conn).encode("utf-8")
+    return receive(conn).encode("utf-8")
