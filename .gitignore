@@ -3,3 +3,5 @@ network.pth
 .vscode/settings.json
 networks/
 run-20210113_084855-8fg5s0mt/
+publicKey.pem
+privateKey.pem

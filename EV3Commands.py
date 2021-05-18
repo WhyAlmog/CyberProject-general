@@ -29,8 +29,8 @@ def wait_touch_sensor_clicked(conn: socket) -> str:
     Returns:
         str: success if successful, error message if not
     """
-    send(conn, "sensor_touch_wait_until_clicked " + TOUCH_SENSOR)
-    return receive_string(conn)
+    send_no_aes(conn, "sensor_touch_wait_until_clicked " + TOUCH_SENSOR)
+    return receive_string_no_aes(conn)
 
 
 def open_trapdoor(conn: socket) -> str:
@@ -42,9 +42,9 @@ def open_trapdoor(conn: socket) -> str:
     Returns:
         str: success if successful, error message if not
     """
-    send(conn, "motor_run_angle " + TRAPDOOR_MOTOR +
+    send_no_aes(conn, "motor_run_angle " + TRAPDOOR_MOTOR +
          " " + TRAPDOOR_SPEED + " -" + TRAPDOOR_ANGLE)  # ! NOTICE THE - BEFORE THE ANGLE
-    return receive_string(conn)
+    return receive_string_no_aes(conn)
 
 
 def close_trapdoor(conn: socket) -> str:
@@ -56,9 +56,9 @@ def close_trapdoor(conn: socket) -> str:
     Returns:
         str: success if successful, error message if not
     """
-    send(conn, "motor_run_angle " + TRAPDOOR_MOTOR +
+    send_no_aes(conn, "motor_run_angle " + TRAPDOOR_MOTOR +
          " " + TRAPDOOR_SPEED + " " + TRAPDOOR_ANGLE)
-    return receive_string(conn)
+    return receive_string_no_aes(conn)
 
 
 def tube_right_position(conn: socket):
@@ -69,13 +69,13 @@ def tube_right_position(conn: socket):
     """
     global TUBE_POSITION
     if TUBE_POSITION == 1:
-        send(conn, "motor_run_angle A -" + TUBE_MOTOR_SPEED + " " +
+        send_no_aes(conn, "motor_run_angle A -" + TUBE_MOTOR_SPEED + " " +
              TUBE_MOTOR_ROTATIONS + " HOLD False")
-        receive_string(conn)
+        receive_string_no_aes(conn)
 
-        send(conn, "motor_run_angle B -" +
+        send_no_aes(conn, "motor_run_angle B -" +
              TUBE_MOTOR_SPEED + " " + TUBE_MOTOR_ROTATIONS)
-        receive_string(conn)
+        receive_string_no_aes(conn)
 
         TUBE_POSITION = 2
 
@@ -88,24 +88,24 @@ def tube_middle_position(conn: socket):
     """
     global TUBE_POSITION
     if TUBE_POSITION == 2:
-        send(conn, "motor_run_angle B " + TUBE_MOTOR_SPEED + " " +
+        send_no_aes(conn, "motor_run_angle B " + TUBE_MOTOR_SPEED + " " +
              TUBE_MOTOR_ROTATIONS + " HOLD False")
-        receive_string(conn)
+        receive_string_no_aes(conn)
 
-        send(conn, "motor_run_angle A " + TUBE_MOTOR_SPEED + " " +
+        send_no_aes(conn, "motor_run_angle A " + TUBE_MOTOR_SPEED + " " +
              TUBE_MOTOR_ROTATIONS)
-        receive_string(conn)
+        receive_string_no_aes(conn)
 
         TUBE_POSITION = 1
 
     elif TUBE_POSITION == 0:
-        send(conn, "motor_run_angle A -" + TUBE_MOTOR_SPEED + " " +
+        send_no_aes(conn, "motor_run_angle A -" + TUBE_MOTOR_SPEED + " " +
              TUBE_MOTOR_ROTATIONS + " HOLD False")
-        receive_string(conn)
+        receive_string_no_aes(conn)
 
-        send(conn, "motor_run_angle B -" + TUBE_MOTOR_SPEED + " " +
+        send_no_aes(conn, "motor_run_angle B -" + TUBE_MOTOR_SPEED + " " +
              TUBE_MOTOR_ROTATIONS)
-        receive_string(conn)
+        receive_string_no_aes(conn)
 
         TUBE_POSITION = 1
 
@@ -118,12 +118,12 @@ def tube_left_position(conn: socket):
     """
     global TUBE_POSITION
     if TUBE_POSITION == 1:
-        send(conn, "motor_run_angle B " +
+        send_no_aes(conn, "motor_run_angle B " +
              TUBE_MOTOR_SPEED + " " + TUBE_MOTOR_ROTATIONS + " HOLD False")
-        receive_string(conn)
+        receive_string_no_aes(conn)
 
-        send(conn, "motor_run_angle A " + TUBE_MOTOR_SPEED + " " +
+        send_no_aes(conn, "motor_run_angle A " + TUBE_MOTOR_SPEED + " " +
              TUBE_MOTOR_ROTATIONS)
-        receive_string(conn)
+        receive_string_no_aes(conn)
 
         TUBE_POSITION = 0

@@ -44,6 +44,7 @@ PHONE_SERVER_PORT = 9768
 EV3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 EV3_EXIT = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 PHONE = None
+PHONE_AES = None
 
 RUNNING = True
 
@@ -60,9 +61,9 @@ def run():
             image = None
 
             while not successful:
-                send(PHONE, "TAKE PICTURE")
+                send(PHONE, "TAKE PICTURE", PHONE_AES)
                 with open(filepath, 'wb') as f:
-                    f.write(receive(PHONE))
+                    f.write(receive(PHONE, PHONE_AES))
                 try:
                     image = Image.open(filepath)
                     image.load()
@@ -115,10 +116,10 @@ def exit(phone_server: socket):
     """
     global RUNNING
 
-    status = receive_string(EV3_EXIT)
+    status = receive_string_no_aes(EV3_EXIT)
     print(status)
 
-    send(PHONE, "EXIT")
+    send(PHONE, "EXIT", PHONE_AES)
 
     EV3.close()
     PHONE.close()
@@ -131,6 +132,7 @@ def main():
     """
     global PHONE
     global NETWORK
+    global PHONE_AES
 
     NETWORK = Net()
     NETWORK.load_state_dict(torch.load(MODEL_PATH))
@@ -147,6 +149,9 @@ def main():
 
     PHONE = phone_server.accept()[0]
     print("Phone Connected")
+
+    PHONE_AES = establish_connection(PHONE)
+    print("encrypted")
 
     t = threading.Thread(target=run)
     t.start()

@@ -4,8 +4,8 @@ import base64
 
 class AESEncrypt:
     def __init__(self, key, iv):
-        self.key = key.encode("utf-8")
-        self.iv = iv.encode("utf-8")
+        self.key = key
+        self.iv = iv
         self.mode = AES.MODE_CBC
 
     def encrypt(self, text):
