@@ -10,7 +10,7 @@ EV3_EXIT_PORT = 8071
 
 
 def main():
-    """make sure that everything works correctly
+    """used to test the EV3 without a need for a phone
     """
     EV3.connect((EV3_IP, EV3_PORT))
     EV3_EXIT.connect((EV3_IP, EV3_EXIT_PORT))

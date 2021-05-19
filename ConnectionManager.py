@@ -54,6 +54,7 @@ def run():
     The main body on the program. You can see more about the structure in the attached documentation file.
     """
     while RUNNING:
+        # wait for the button to be clicked on the robot
         res = wait_touch_sensor_clicked(EV3)
         if res == "success":
             successful = False
@@ -61,15 +62,20 @@ def run():
             image = None
 
             while not successful:
+                # take the picture and save it to disk
                 send(PHONE, "TAKE PICTURE", PHONE_AES)
                 with open(filepath, 'wb') as f:
                     f.write(receive(PHONE, PHONE_AES))
+
+                # validate the image's integrity
                 try:
                     image = Image.open(filepath)
                     image.load()
                     successful = True
                 except Exception:
                     image.close()
+
+                    # delete the image if it is broken
                     try:
                         os.remove(filepath)
                     except Exception:
@@ -78,9 +84,11 @@ def run():
             network_prediction = network_eval(image)
             print(CLASSES[network_prediction])
 
+            # rename the image to the network's prediction, will make it easier to expand the dataset later
             os.rename(filepath, IMAGE_FOLDER +
                       CLASSES[network_prediction] + str(int(time.time())) + ".jpg")
 
+            # operate the tube on the robot
             TUBE_MOTOR_ROTATIONS[network_prediction](EV3)
             open_trapdoor(EV3)
             time.sleep(1)
@@ -103,6 +111,7 @@ def network_eval(image: Image) -> int:
 
     output = NETWORK(x)
 
+    # get the most lit output neuron
     _, predicted = torch.max(output, 1)
 
     return predicted.numpy()[0]

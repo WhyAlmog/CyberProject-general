@@ -3,39 +3,59 @@ import base64
 
 
 class AESEncrypt:
-    def __init__(self, key, iv):
+    def __init__(self, key: bytes, iv: bytes):
+        """create an AES encyptor/decryptor
+
+        Args:
+            key (bytes): 16 bytes seed to use for key generation
+            iv (bytes): 16 bytes seed to use for iv generation
+        """
         self.key = key
         self.iv = iv
         self.mode = AES.MODE_CBC
 
-    def encrypt(self, text):
+    def encrypt(self, text:str) -> str:
+        """encrypt a string with the key and the iv given when creating this object
+
+        Args:
+            text (str): the text to encrypt
+
+        Returns:
+            str: encrypted text, in base 64
+        """
         cryptor = AES.new(self.key, self.mode, self.iv)
         length = AES.block_size
         text_pad = self.padding(length, text)
         ciphertext = cryptor.encrypt(text_pad.encode("utf-8"))
-        cryptedStr = str(base64.b64encode(ciphertext), encoding='utf-8')
-        return cryptedStr
+        return str(base64.b64encode(ciphertext), encoding='utf-8')
 
-    def padding(self, length, text):
+
+    def padding(self, length:int, text:str) -> str:
+        """adds padding to the given text string to match AES block size
+
+        Args:
+            length (int): AES block size
+            text (str): the text to pad
+
+        Returns:
+            str: padded text
+        """
         count = len(text.encode('utf-8'))
         if count % length != 0:
             add = length - (count % length)
         else:
             add = 0
-        text1 = text + ('\0' * add)
-        return text1
+        return (text + ('\0' * add))
 
-    def decrypt(self, text):
+    def decrypt(self, text:bytes) -> bytes:
+        """decrypts a given text using the key and iv given when creating this object
+
+        Args:
+            text (bytes): encrypted data, in base 64
+
+        Returns:
+            bytes: decrypted data
+        """
         base_text = base64.b64decode(text)
         cryptor = AES.new(self.key, self.mode, self.iv)
-        plain_text = cryptor.decrypt(base_text)
-        return plain_text
-
-
-if __name__ == '__main__':
-    aes_encrypt = AESEncrypt(key='keyskeyskeyskeys', iv="keyskeyskeyskeys")  # Initialize key and IV
-    text = '123'
-    sign_data = aes_encrypt.encrypt(text)
-    print(sign_data)
-    data = aes_encrypt.decrypt(sign_data)
-    print(data)
+        return cryptor.decrypt(base_text)
