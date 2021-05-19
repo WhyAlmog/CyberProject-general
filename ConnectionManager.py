@@ -116,7 +116,7 @@ def exit(phone_server: socket):
     """
     global RUNNING
 
-    status = receive_string_no_aes(EV3_EXIT)
+    status = receive_string(EV3_EXIT)
     print(status)
 
     send(PHONE, "EXIT", PHONE_AES)

@@ -60,10 +60,10 @@ def establish_connection(conn: socket) -> AESEncrypt:
     public_key = public_key.replace("-----BEGIN PUBLIC KEY-----", "")
     public_key = public_key.replace("-----END PUBLIC KEY-----", "")
     public_key = public_key.replace("\n", "")
-    send_no_aes(conn, public_key)
+    send(conn, public_key)
 
-    key_seed = rsa_decrypt(receive_string_no_aes(conn), key)
-    iv_seed = rsa_decrypt(receive_string_no_aes(conn), key)
+    key_seed = rsa_decrypt(receive_string(conn), key)
+    iv_seed = rsa_decrypt(receive_string(conn), key)
 
     print(key_seed)
 
