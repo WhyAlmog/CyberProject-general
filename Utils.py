@@ -9,23 +9,15 @@ from base64 import b64encode
 READ_SIZE = 4096
 
 
-def send(conn: socket, data: str, aes: AESEncrypt) -> None:
-    data = aes.encrypt(data)
-    send_no_aes(conn, data)
-
-
-def send_no_aes(conn: socket, data: str) -> None:
-    data = data.encode()
+def send(conn: socket, data: str, aes: AESEncrypt = None) -> None:
+    if aes is not None:
+        data = aes.encrypt(data)
 
     conn.send(len(data).to_bytes(4, "big"))
     conn.send(data)
 
 
-def receive(conn: socket, aes: AESEncrypt) -> bytes:
-    return aes.decrypt(receive_no_aes(conn))
-
-
-def receive_no_aes(conn: socket) -> bytes:
+def receive(conn: socket, aes: AESEncrypt = None) -> bytes:
     """Receives data according to the 4 bytes header protocol, see send function"""
     length = int.from_bytes(conn.recv(4), "big")
 
@@ -39,15 +31,14 @@ def receive_no_aes(conn: socket) -> bytes:
 
         remaining = length - len(data)
 
+    if aes is not None:
+        data = aes.decrypt(data)
+
     return data
 
 
-def receive_string(conn: socket, aes: AESEncrypt) -> str:
+def receive_string(conn: socket, aes: AESEncrypt = None) -> str:
     return receive(conn, aes).decode("utf-8")
-
-
-def receive_string_no_aes(conn: socket) -> str:
-    return receive_no_aes(conn).decode("utf-8")
 
 
 def rsa_encrypt(s, public_key) -> str:
