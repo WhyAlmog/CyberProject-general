@@ -21,6 +21,8 @@ def send(conn: socket, data: str, aes: AESEncrypt = None) -> None:
     if aes is not None:
         data = aes.encrypt(data)
 
+    data = data.encode("utf-8")
+
     conn.send(len(data).to_bytes(4, "big"))
     conn.send(data)
 
