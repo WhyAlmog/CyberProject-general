@@ -7,7 +7,7 @@ TOUCH_SENSOR = "1"
 # trapdoor motor (small motor) port
 TRAPDOOR_MOTOR = "D"
 TRAPDOOR_SPEED = str(1440)  # deg/s
-TRAPDOOR_ANGLE = str(int(360 * 7.7))  # field tested to be this number
+TRAPDOOR_ANGLE = str(int(360 * 7.7))  # empirically tested to be this number
 
 
 #! A - right motor, positive degrees cause the rope to go LOOSE

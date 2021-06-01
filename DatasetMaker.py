@@ -7,12 +7,12 @@ import random
 from skimage import io
 
 # folders to process
-FOLDERS = ["C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\paper\\",
-           "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\tin\\",
-           "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\plastic\\",
-           "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\paper\\",
-           "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\tin\\",
-           "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\plastic\\"]
+FOLDERS = ["C:\\Users\\Manor\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\paper\\",
+           "C:\\Users\\Manor\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\tin\\",
+           "C:\\Users\\Manor\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\plastic\\",
+           "C:\\Users\\Manor\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\paper\\",
+           "C:\\Users\\Manor\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\tin\\",
+           "C:\\Users\\Manor\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\plastic\\"]
 
 
 def sp_noise(image: typing.Any, prob: float) -> typing.Any:

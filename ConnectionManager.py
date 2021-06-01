@@ -32,7 +32,7 @@ MODEL_PATH = "./network.pth"
 NETWORK = None
 
 # location to save the pictures to
-IMAGE_FOLDER = "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\images\\"
+IMAGE_FOLDER = "C:\\Users\\Manor\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\images\\"
 
 IMAGE_DELETION_ERROR = "Failed to delete image: {}, overriting data instead"
 

@@ -7,9 +7,9 @@ class Net(nn.Module):
         super(Net, self).__init__()
         self.pool = nn.MaxPool2d(2, 2)
 
-        self.conv1 = nn.Conv2d(3, 64, 5)
-        self.conv2 = nn.Conv2d(64, 48, 5)
-        self.conv3 = nn.Conv2d(48, 32, 3)
+        self.conv1 = nn.Conv2d(3, 56, 5)
+        self.conv2 = nn.Conv2d(56, 42, 5)
+        self.conv3 = nn.Conv2d(42, 32, 3)
         
         self.fc1 = nn.Linear(32 * 10 ** 2, 4096)
         self.fc2 = nn.Linear(4096, 3)

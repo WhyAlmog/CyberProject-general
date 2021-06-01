@@ -8,8 +8,8 @@ from torchvision.datasets import ImageFolder
 
 from Net import Net
 
-TRAIN_PATH = "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\"
-TEST_PATH = "C:\\Users\\almog\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\"
+TRAIN_PATH = "C:\\Users\\Manor\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\train\\"
+TEST_PATH = "C:\\Users\\Manor\\OneDrive\\VSCodeWorkspace\\CyberProject\\CyberProject-data\\datasetProcessed\\test\\"
 MODEL_PATH = "./network.pth"
 EPOCHS = 3
 DEVICE = None
@@ -18,7 +18,7 @@ BATCH_SIZE = 4
 
 
 def main():
-    """train and then test the network, more information an be found at the individual train/test files
+    """train and then test the network, more information can be found at the individual train/test files
     """
     global DEVICE
     DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

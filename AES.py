@@ -4,7 +4,7 @@ import base64
 
 class AESEncrypt:
     def __init__(self, key: bytes, iv: bytes):
-        """create an AES encyptor/decryptor
+        """creates an AES encryption/decryption object
 
         Args:
             key (bytes): 16 bytes seed to use for key generation
