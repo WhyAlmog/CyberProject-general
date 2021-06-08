@@ -82,7 +82,7 @@ def rsa_encrypt(s:str, public_key:str) -> str:
     return b64encode(cipher.encrypt(bytes(s, "utf-8")))
 
 
-def rsa_decrypt(s:str, private_key:str) -> str:
+def rsa_decrypt(s:str, private_key:str) -> bytes:
     """decrypts data using the RSA a-symmetric encryption algorithm
 
     Args:
